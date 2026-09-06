@@ -6,7 +6,7 @@ Every object is immutable and content-addressed. History forms a DAG. Diffs are 
 
 ## What it forces
 
-Content-addressed object storage on top of impossible-vault, DAG traversal, and network synchronization over impossible-wire.
+Content-addressed object storage on top of sietch, DAG traversal, and network synchronization over distrans.
 
 ## Research question
 

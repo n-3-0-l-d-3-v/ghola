@@ -1,4 +1,4 @@
-# Scope — impossible-history
+# Scope — ghola
 
 ## CORE (required for this repo to be considered complete at all)
 - TODO: fill in as Phase tickets are broken down.

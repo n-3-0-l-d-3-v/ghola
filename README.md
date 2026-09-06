@@ -1,8 +1,12 @@
-# impossible-history — THE HISTORY
+# GHOLA — THE HISTORY
 
 > A Git-like content-addressed version control system with no stored diffs.
 
-Part of **[The Impossible Computer](https://github.com/n-3-0-l-d-3-v/impossible-computer)** — a constrained computing
+## Why "GHOLA"
+
+A ghola is a person regrown from a single preserved cell, who can eventually recover the original's complete memories and identity. That is the precise mechanic of content-addressed history: from one small addressable object (a cell, a hash), you deterministically reconstruct an entire lineage of state.
+
+Part of **[ARRAKIS](https://github.com/n-3-0-l-d-3-v/arrakis)** — a constrained computing
 ecosystem built by removing assumptions ordinary computers depend on. This
 repository is developed standalone and mirrored into the combined ecosystem
 repo commit-for-commit.
@@ -21,7 +25,7 @@ Every object is immutable and content-addressed. History forms a DAG. Diffs are 
 
 ## What the constraint forces
 
-Content-addressed object storage on top of impossible-vault, DAG traversal, and network synchronization over impossible-wire.
+Content-addressed object storage on top of sietch, DAG traversal, and network synchronization over distrans.
 
 ## Research question
 
@@ -29,14 +33,14 @@ Content-addressed object storage on top of impossible-vault, DAG traversal, and 
 
 ## Sibling repositories
 
-- [impossible-machine](https://github.com/n-3-0-l-d-3-v/impossible-machine) — THE MACHINE (ACTIVE)
-- [impossible-language](https://github.com/n-3-0-l-d-3-v/impossible-language) — THE LANGUAGE (QUEUED)
-- [impossible-kernel](https://github.com/n-3-0-l-d-3-v/impossible-kernel) — THE KERNEL (QUEUED)
-- [impossible-vault](https://github.com/n-3-0-l-d-3-v/impossible-vault) — THE VAULT (QUEUED)
-- [impossible-database](https://github.com/n-3-0-l-d-3-v/impossible-database) — THE DATABASE (QUEUED)
-- [impossible-wire](https://github.com/n-3-0-l-d-3-v/impossible-wire) — THE WIRE (QUEUED)
-- [impossible-colony](https://github.com/n-3-0-l-d-3-v/impossible-colony) — THE COLONY (QUEUED)
-- [impossible-artifact](https://github.com/n-3-0-l-d-3-v/impossible-artifact) — THE ARTIFACT (STRETCH)
+- [mentat](https://github.com/n-3-0-l-d-3-v/mentat) — THE MACHINE (COMPLETE)
+- [chakobsa](https://github.com/n-3-0-l-d-3-v/chakobsa) — THE LANGUAGE (QUEUED)
+- [muaddib](https://github.com/n-3-0-l-d-3-v/muaddib) — THE KERNEL (QUEUED)
+- [sietch](https://github.com/n-3-0-l-d-3-v/sietch) — THE VAULT (ACTIVE)
+- [choam](https://github.com/n-3-0-l-d-3-v/choam) — THE DATABASE (QUEUED)
+- [distrans](https://github.com/n-3-0-l-d-3-v/distrans) — THE WIRE (QUEUED)
+- [landsraad](https://github.com/n-3-0-l-d-3-v/landsraad) — THE COLONY (QUEUED)
+- [shai-hulud](https://github.com/n-3-0-l-d-3-v/shai-hulud) — THE ARTIFACT (STRETCH)
 
 ## Development
 
