@@ -319,4 +319,27 @@ mod tests {
         let _ = c;
         assert_eq!(r.object_ids(), vec![id]);
     }
+
+    fn disk_bytes(dir: &std::path::Path) -> u64 {
+        std::fs::read_dir(dir)
+            .unwrap()
+            .map(|e| e.unwrap().metadata().unwrap().len())
+            .sum()
+    }
+
+    #[test]
+    fn rewriting_an_existing_object_appends_nothing_to_disk() {
+        let d = tempfile::tempdir().unwrap();
+        let mut r = Repo::open(d.path()).unwrap();
+        let o = Object::Blob(vec![7; 500]);
+        r.put(&o).unwrap();
+        let before = disk_bytes(d.path());
+        r.put(&o).unwrap();
+        r.put(&o).unwrap();
+        assert_eq!(
+            disk_bytes(d.path()),
+            before,
+            "an identical put must not append a record"
+        );
+    }
 }
