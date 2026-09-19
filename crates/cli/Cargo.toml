@@ -1,0 +1,22 @@
+[package]
+name = "ghola-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "ghola_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ghola"
+path = "src/main.rs"
+
+[dependencies]
+diff = { path = "../diff" }
+object = { path = "../object" }
+repo = { path = "../repo" }
+worktree = { path = "../worktree" }
+
+[dev-dependencies]
+tempfile = "3"
