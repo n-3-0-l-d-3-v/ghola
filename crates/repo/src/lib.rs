@@ -7,6 +7,7 @@
 //! data. Refs (`r/<name>` -> id) and HEAD are the only mutable state; on an
 //! append-only store even those are new versions, not overwrites.
 
+mod graph;
 mod snapshot;
 
 use std::collections::BTreeMap;
