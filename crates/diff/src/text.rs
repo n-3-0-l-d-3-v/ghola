@@ -184,4 +184,25 @@ mod tests {
         assert!(out.contains("-x\n\\ No newline at end of file\n"), "{out}");
         assert!(out.contains("+y\n\\ No newline at end of file\n"), "{out}");
     }
+
+    #[test]
+    fn hunks_whose_context_windows_merely_touch_are_merged() {
+        // Changes at lines 2 and 5 with one line of context: the windows
+        // (lines 1-3 and 4-6) touch with no gap, so this is one hunk.
+        let a = b"1
+2
+3
+4
+5
+6
+";
+        let b = b"1
+X
+3
+4
+Y
+6
+";
+        assert_eq!(unified("a", "b", a, b, 1).matches("@@ -").count(), 1);
+    }
 }
