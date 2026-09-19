@@ -13,7 +13,26 @@ repo commit-for-commit.
 
 ## Status
 
-**Phase 8 — QUEUED**
+**Phase 8 — COMPLETE.** A Git-like version-control system with no stored
+diffs, built on sietch and distrans:
+- `object`: from-scratch SHA-256 (NIST vectors + differential vs `sha2`) and
+  blob/tree/commit objects with one canonical encoding.
+- `repo`: a verified object store on sietch (corruption is detected on read),
+  snapshots as nested trees, the commit DAG (log, merge base), tree diff that
+  skips unchanged subtrees unread, three-way merge with typed conflicts.
+- `diff`: Myers O(ND) diff (minimality checked against an LCS reference),
+  unified output, line-level three-way merge.
+- `worktree` + `ghola-cli`: a real command line
+  (`cargo run -p ghola-cli --bin ghola -- init | commit | log | status | diff |
+  branch | checkout | merge | fetch | push | pull`).
+- `sync`: fetch/push/pull over distrans RPC, transport and a hostile simulated
+  network, with an untrusted peer on both sides.
+
+Measured: 100 commits of a 50-file tree store at 3.7% of full copies; a
+lossy network costs latency, not bandwidth (10% loss: 129x the ticks for 1.4x
+the datagrams). Found along the way: distrans's RPC fixed retry deadline
+collapses under large messages. See
+[ADR-007](docs/design/decisions/ADR-007-sync-over-distrans.md).
 
 See [tickets/](tickets/) for the live phase-by-phase ticket board and
 [docs/design/](docs/design/) for constraints, invariants and architecture
