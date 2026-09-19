@@ -1,5 +1,5 @@
 ---
-status: open
+status: done
 phase: 8
 ---
 
@@ -9,3 +9,9 @@ phase: 8
 - `crates/object`: SHA-256 implemented from scratch, checked against NIST vectors and differentially against the `sha2` crate.
 - Blob, tree and commit objects with one canonical byte encoding; an object's id is the SHA-256 of exactly its stored bytes.
 - Decoding rejects non-canonical input (unsorted or duplicate tree entries, bad names), so one logical object has one id. Decoding arbitrary bytes never panics.
+
+## Done
+- [x] SHA-256 from scratch: NIST vectors, differential vs `sha2`, chunking independence
+- [x] Blob/tree/commit with canonical encoding; decode rejects non-canonical input, never panics
+- [x] Property tests; mutation-checked
+- [x] ADR-001
