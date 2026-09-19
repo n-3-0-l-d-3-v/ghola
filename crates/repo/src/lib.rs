@@ -9,6 +9,7 @@
 
 mod graph;
 mod merge;
+mod reach;
 mod snapshot;
 mod treediff;
 
