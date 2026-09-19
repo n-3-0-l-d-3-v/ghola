@@ -61,6 +61,7 @@ pub struct Repo {
 const OBJ: u8 = b'o';
 const REF_PREFIX: &[u8] = b"r/";
 const HEAD_KEY: &[u8] = b"HEAD";
+const MERGE_HEAD_KEY: &[u8] = b"MERGE_HEAD";
 
 fn obj_key(id: &ObjectId) -> Vec<u8> {
     let mut k = vec![OBJ];
@@ -209,6 +210,21 @@ impl Repo {
         }
     }
 
+    /// The commit being merged in while a conflicted merge awaits resolution.
+    pub fn merge_head(&self) -> Option<ObjectId> {
+        Some(ObjectId(self.store.get(MERGE_HEAD_KEY)?.try_into().ok()?))
+    }
+
+    pub fn set_merge_head(&mut self, id: &ObjectId) -> Result<(), RepoError> {
+        self.store.put(MERGE_HEAD_KEY.to_vec(), id.0.to_vec())?;
+        Ok(())
+    }
+
+    pub fn clear_merge_head(&mut self) -> Result<(), RepoError> {
+        self.store.delete(MERGE_HEAD_KEY.to_vec())?;
+        Ok(())
+    }
+
     /// The commit HEAD currently resolves to, if any.
     pub fn head_commit(&self) -> Result<Option<ObjectId>, RepoError> {
         Ok(match self.head()? {
@@ -346,5 +362,20 @@ mod tests {
             before,
             "an identical put must not append a record"
         );
+    }
+
+    #[test]
+    fn merge_head_set_get_clear_and_persist() {
+        let d = tempfile::tempdir().unwrap();
+        let id = ObjectId::of(b"theirs");
+        {
+            let mut r = Repo::open(d.path()).unwrap();
+            assert_eq!(r.merge_head(), None);
+            r.set_merge_head(&id).unwrap();
+        }
+        let mut r = Repo::open(d.path()).unwrap();
+        assert_eq!(r.merge_head(), Some(id));
+        r.clear_merge_head().unwrap();
+        assert_eq!(r.merge_head(), None);
     }
 }
