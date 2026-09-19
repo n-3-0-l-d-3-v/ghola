@@ -1,0 +1,12 @@
+[package]
+name = "object"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+sha2 = "0.10"
