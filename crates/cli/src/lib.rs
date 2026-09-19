@@ -12,6 +12,8 @@
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
+mod net_cmds;
+
 use diff::unified;
 use object::{Object, ObjectId};
 use repo::{Files, Head, MergeOutcome, Repo};
@@ -50,9 +52,9 @@ impl<E: std::fmt::Display> From<E> for CliError {
     }
 }
 
-type R<T = ()> = Result<T, CliError>;
+pub(crate) type R<T = ()> = Result<T, CliError>;
 
-fn err<T>(msg: impl Into<String>) -> R<T> {
+pub(crate) fn err<T>(msg: impl Into<String>) -> R<T> {
     Err(CliError(msg.into()))
 }
 
@@ -65,6 +67,11 @@ const USAGE: &str = "usage: ghola <command> [args]
   branch [NAME]                 list branches, or create NAME at HEAD
   checkout TARGET [--force]     switch to a branch or revision
   merge REV [-m MSG] | --abort  merge a revision into the current branch
+  fetch PATH [--name N]         download PATH's history into remotes/N/* (default N=origin)
+  push PATH [BRANCH] [--force]  upload BRANCH (default: current) to the repository at PATH
+  pull PATH [BRANCH]            fetch, then merge PATH's BRANCH into the current branch
+  (fetch/push/pull accept --loss P --seed S: the transfer then runs over distrans's simulated
+   hostile network, dropping/duplicating/reordering/corrupting datagrams at rate P)
 Revisions: HEAD, a branch name, a commit id or unique prefix (4+ hex digits), any of those followed by ~N.";
 
 /// Runs one command. Returns the process exit code (0 ok, 1 command failed,
@@ -93,6 +100,9 @@ pub fn run(
         "branch" => Ctx::open(cwd, env).and_then(|mut c| c.branch(rest, out)),
         "checkout" => Ctx::open(cwd, env).and_then(|mut c| c.checkout(rest, out)),
         "merge" => Ctx::open(cwd, env).and_then(|mut c| c.merge(rest, out)),
+        "fetch" => Ctx::open(cwd, env).and_then(|mut c| c.fetch(rest, out)),
+        "push" => Ctx::open(cwd, env).and_then(|mut c| c.push(rest, out)),
+        "pull" => Ctx::open(cwd, env).and_then(|mut c| c.pull(rest, out)),
         other => {
             let _ = writeln!(errw, "ghola: unknown command {other:?}\n{USAGE}");
             return 2;
@@ -129,20 +139,21 @@ fn cmd_init(cwd: &Path, out: &mut dyn Write) -> R {
     Ok(())
 }
 
-struct Ctx<'e> {
+pub(crate) struct Ctx<'e> {
+    cwd: PathBuf,
     root: PathBuf,
     repo: Repo,
     env: &'e Env,
 }
 
-fn opt(args: &[String], flag: &str) -> Option<String> {
+pub(crate) fn opt(args: &[String], flag: &str) -> Option<String> {
     args.iter()
         .position(|a| a == flag)
         .and_then(|i| args.get(i + 1))
         .cloned()
 }
 
-fn short(id: &ObjectId) -> String {
+pub(crate) fn short(id: &ObjectId) -> String {
     id.to_hex()[..7].to_string()
 }
 
@@ -152,20 +163,25 @@ impl<'e> Ctx<'e> {
             return err("not a ghola repository (no .ghola found in this or any parent directory)");
         };
         let repo = Repo::open(root.join(META_DIR))?;
-        Ok(Ctx { root, repo, env })
+        Ok(Ctx {
+            cwd: cwd.to_path_buf(),
+            root,
+            repo,
+            env,
+        })
     }
 
-    fn author(&self, args: &[String]) -> String {
+    pub(crate) fn author(&self, args: &[String]) -> String {
         opt(args, "--author")
             .or_else(|| self.env.author.clone())
             .unwrap_or_else(|| "unknown".into())
     }
 
-    fn tree_files(&self, commit: &ObjectId) -> R<Files> {
+    pub(crate) fn tree_files(&self, commit: &ObjectId) -> R<Files> {
         Ok(self.repo.read_tree(&self.repo.commit_of(commit)?.tree)?)
     }
 
-    fn head_files(&self) -> R<Files> {
+    pub(crate) fn head_files(&self) -> R<Files> {
         match self.repo.head_commit()? {
             Some(c) => self.tree_files(&c),
             None => Ok(Files::new()),

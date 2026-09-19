@@ -16,6 +16,7 @@ path = "src/main.rs"
 diff = { path = "../diff" }
 object = { path = "../object" }
 repo = { path = "../repo" }
+sync = { path = "../sync" }
 worktree = { path = "../worktree" }
 
 [dev-dependencies]
