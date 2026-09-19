@@ -1,10 +1,13 @@
 # Scope — ghola
 
-## CORE (required for this repo to be considered complete at all)
-- TODO: fill in as Phase tickets are broken down.
+## CORE
+- Content-addressed immutable objects (blob, tree, commit) with a from-scratch SHA-256, stored on sietch; refs; the commit DAG (log, ancestors, merge base).
+- Diffs computed on demand (Myers line diff, tree diff); no diff is ever stored as history.
+- Working tree snapshot/checkout and a real `ghola` CLI.
 
-## EXTENSION (required for full integration into the combined ecosystem)
-- TODO
+## EXTENSION
+- Three-way merge with conflict reporting.
+- Synchronization (push/pull of missing objects) over distrans's hostile channel.
 
-## EXPERIMENT (only attempted once CORE + EXTENSION are healthy)
-- TODO
+## EXPERIMENT (only if CORE and EXTENSION are healthy)
+- Pack files / delta compression, shallow clones, signed commits.
