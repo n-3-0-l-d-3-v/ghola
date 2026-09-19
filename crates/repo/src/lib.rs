@@ -9,6 +9,7 @@
 
 mod graph;
 mod snapshot;
+mod treediff;
 
 use std::collections::BTreeMap;
 use std::path::PathBuf;
@@ -17,6 +18,7 @@ use object::{Commit, Object, ObjectError, ObjectId};
 use storage::{Store, StoreError};
 
 pub use snapshot::Files;
+pub use treediff::Change;
 
 #[derive(Debug, thiserror::Error)]
 pub enum RepoError {
