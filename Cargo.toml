@@ -4,6 +4,7 @@ members = [
     "crates/object",
     "crates/repo",
     "crates/diff",
+    "crates/worktree",
 ]
 
 [workspace.package]
