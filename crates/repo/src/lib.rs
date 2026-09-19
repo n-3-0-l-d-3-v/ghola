@@ -8,6 +8,7 @@
 //! append-only store even those are new versions, not overwrites.
 
 mod graph;
+mod merge;
 mod snapshot;
 mod treediff;
 
@@ -17,6 +18,7 @@ use std::path::PathBuf;
 use object::{Commit, Object, ObjectError, ObjectId};
 use storage::{Store, StoreError};
 
+pub use merge::{merge_files, ConflictKind, MergeOutcome, PathConflict, TreeMerge};
 pub use snapshot::Files;
 pub use treediff::Change;
 
