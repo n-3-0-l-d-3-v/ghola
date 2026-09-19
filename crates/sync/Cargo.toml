@@ -1,0 +1,17 @@
+[package]
+name = "sync"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+channel.workspace = true
+object = { path = "../object" }
+repo = { path = "../repo" }
+rpc.workspace = true
+thiserror.workspace = true
+transport.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+tempfile = "3"

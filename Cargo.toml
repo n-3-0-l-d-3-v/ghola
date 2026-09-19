@@ -5,6 +5,7 @@ members = [
     "crates/repo",
     "crates/diff",
     "crates/worktree",
+    "crates/sync",
     "crates/cli",
 ]
 
@@ -15,5 +16,8 @@ license = "MIT"
 
 [workspace.dependencies]
 storage = { git = "https://github.com/n-3-0-l-d-3-v/sietch.git" }
+channel = { git = "https://github.com/n-3-0-l-d-3-v/distrans.git" }
+rpc = { git = "https://github.com/n-3-0-l-d-3-v/distrans.git" }
+transport = { git = "https://github.com/n-3-0-l-d-3-v/distrans.git" }
 thiserror = "1"
 proptest = "1"
